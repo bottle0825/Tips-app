@@ -1,0 +1,63 @@
+//用户表
+user:
+    id
+    nickname
+    head
+    openid
+    createtime
+//粉丝表
+follower:
+    id
+    user
+    other
+//关注表
+following:
+    id
+    user
+    other
+//手账本表
+note:
+    id
+    title
+    user
+    createtime
+//手账表
+tip:
+    id
+    note
+    title
+    img
+    address
+    createtime
+//废纸篓表
+waste:
+    id
+    note
+    title
+    img
+    address
+    createtime
+    wastetime
+    user
+//记账表
+record:
+    id
+    user
+    in_out
+    type
+    money
+    createtime
+//说说表
+said: 
+    id
+    user
+    img
+    detail
+    createtime
+//单词表
+word:
+    id
+    user
+    chinese
+    english
+    status
