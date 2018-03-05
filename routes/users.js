@@ -1,9 +1,19 @@
 var express = require('express');
 var router = express.Router();
+var User = require('../operation/user');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.post('/authorize/send_code', function(req,res,next){
+  var user = new User(req,res,next);
+  user.sendCode()
+});
+router.post('/authorize/set_phone', function(req,res,next){
+  var user = new User(req,res,next);
+  user.setPhone()
+});
+router.post('/authorize/set_wxcode', function(req,res,next){
+  var user = new User(req,res,next);
+  user.setWxCode()
 });
 
 module.exports = router;
