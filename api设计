@@ -3,5 +3,5 @@ user:
     /user/authorize/set_phone
     /user/authorize/set_wxcode
 note:
-    /note/get_note
+    /note/getMsg
     /note/create

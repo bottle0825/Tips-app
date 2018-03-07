@@ -33,7 +33,7 @@ User.prototype.setWxCode = function () {
         if (!error && response.statusCode == 200) {
             body = JSON.parse(body);
             console.log(body) // 请求成功的处理逻辑
-            db(function(con){
+            db((con) => {
                 var sql = 'select * from user where openid = \'' + body.openid + '\''
                 con.query(sql, (err,result) => {
                     if(err) throw err;
@@ -58,9 +58,10 @@ User.prototype.setWxCode = function () {
                             console.log('用户录入成功');
                             //生成sessionId
                             var sessionId = 'sessionId=' + Date.parse(new Date()) + parseInt(999*Math.random());
-                            mySession[sessionId] = result.insertid;
+                            console.log(result);
+                            mySession[sessionId] = result.insertId;
                             //自动生成默认手账本
-                            sql = 'insert into note (title, user, createAt) values(\'默认手账本\', \'' + result.insertid + '\', \'' + date + '\')'
+                            sql = 'insert into note (title, user, createAt) values(\'默认手账本\', \'' + result.insertId + '\', \'' + date + '\')'
                             con.query(sql, (err, result) => {
                                 if(err) throw err;
                                 console.log('生成默认手账成功');
