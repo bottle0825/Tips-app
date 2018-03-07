@@ -2,3 +2,6 @@ user:
     /user/authorize/send_code
     /user/authorize/set_phone
     /user/authorize/set_wxcode
+note:
+    /note/get_note
+    /note/create

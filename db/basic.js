@@ -2,8 +2,8 @@ var mysql = require('mysql');
 var init = function(cb,db){
 	var options = {
 		host: 'localhost',
-		user: 'dang',
-		password: '123456'
+		user: 'root',
+		password: ''
 		// host: process.env.MYSQL_HOST,
 		// user: process.env.MYSQL_USERNAME,
 		// password: process.env.MYSQL_PASSWORD
@@ -14,7 +14,8 @@ var init = function(cb,db){
 	var con = mysql.createConnection(options);
 	con.connect(function(err) {
 		if (err) throw err;
-		console.log('Connected!');
+        console.log('Connected!');
+        console.log(cb instanceof Function);
 		cb instanceof Function && cb(con);
 	});
 };
