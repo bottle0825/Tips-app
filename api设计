@@ -5,3 +5,4 @@ user:
 note:
     /note/getMsg
     /note/create
+    /note/delete

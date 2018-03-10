@@ -11,5 +11,9 @@ router.post('/create', function(req,res,next){
   var note = new Note(req,res,next);
   note.create()
 });
+router.post('/delete', function(req,res,next){
+  var note = new Note(req,res,next);
+  note.delete()
+});
 
 module.exports = router;
