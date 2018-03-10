@@ -4,7 +4,7 @@ user:
     nickname
     head
     openid
-    createtime
+    createAt
 //粉丝表
 follower:
     id
@@ -20,7 +20,7 @@ note:
     id
     title
     user
-    createtime
+    createAt
 //手账表
 tip:
     id
@@ -28,15 +28,16 @@ tip:
     title
     img
     address
-    createtime
+    createAt
 //废纸篓表
 waste:
     id
+    oldId
     note
     title
     img
     address
-    createtime
+    createAt
     wastetime
     user
 //记账表
@@ -46,14 +47,14 @@ record:
     in_out
     type
     money
-    createtime
+    createAt
 //说说表
 said: 
     id
     user
     img
     detail
-    createtime
+    createAt
 //单词表
 word:
     id

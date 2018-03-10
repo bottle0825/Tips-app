@@ -6,3 +6,7 @@ note:
     /note/getMsg
     /note/create
     /note/delete
+tips:
+    /tips/getDetail
+    /note/getMsg
+    /note/delete
