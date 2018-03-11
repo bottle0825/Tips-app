@@ -26,7 +26,7 @@ Note.prototype.getMsg = function () {
                 if(err) throw err;
                 async.each(result,(tipsmsg,callback) => {
                     var ddate = new Date(tipsmsg.createAt);
-                    time = ddate.getFullYear() + '/' + ddate.getMonth() + '/' + ddate.getDate();
+                    time = ddate.getFullYear() + '/' + (ddate.getMonth()+1) + '/' + ddate.getDate();
                     var addNote = {
                         id: tipsmsg.id,
                         title: tipsmsg.title,
@@ -65,7 +65,7 @@ Note.prototype.getDetail = function () {
                     id: result[0].id,
                     title: result[0].title,
                     content: result[0].content,
-                    date: ddate.getFullYear() + '.' + ddate.getMonth() + '.' + ddate.getDate(),
+                    date: ddate.getFullYear() + '.' + (ddate.getMonth()+1) + '.' + ddate.getDate(),
                     time: ddate.getHours() + ':' + ddate.getMinutes(),
                     img: result[0].img,
                     address: result[0].address,

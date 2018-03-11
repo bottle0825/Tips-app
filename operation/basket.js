@@ -31,7 +31,7 @@ Basket.prototype.getMsg = function () {
                         oldId: wasteMsg.oldId,
                         title: wasteMsg.title,
                         img: wasteMsg.img,
-                        date: ddate.getFullYear() + '/' + ddate.getMonth() + '/' + ddate.getDate(),
+                        date: ddate.getFullYear() + '/' + (ddate.getMonth()+1) + '/' + ddate.getDate(),
                     }
                     reqData.data.push(addNote);
                     callback();

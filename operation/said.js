@@ -29,7 +29,7 @@ Said.prototype.getMsg = function () {
                     sql = 'select * from user where id=\'' + tipsmsg.user + '\';' 
                     con.query(sql, (err, result) => {
                         var ddate = new Date(tipsmsg.createAt);
-                        timeD = ddate.getFullYear() + '.' + ddate.getMonth() + '.' + ddate.getDate();
+                        timeD = ddate.getFullYear() + '.' + (ddate.getMonth() + 1) + '.' + ddate.getDate();
                         timeT = ddate.getHours() + ':' + ddate.getMinutes();
                         var addNote = {
                             id: tipsmsg.id,
@@ -87,7 +87,7 @@ Said.prototype.getMsgOther = function () {
                         if(err) throw err;
                         async.each(result,(tipsmsg,callback) => {
                             var ddate = new Date(tipsmsg.createAt);
-                            timeD = ddate.getFullYear() + '.' + ddate.getMonth() + '.' + ddate.getDate();
+                            timeD = ddate.getFullYear() + '.' + (ddate.getMonth()+1) + '.' + ddate.getDate();
                             timeT = ddate.getHours() + ':' + ddate.getMinutes();
                             var addNote = {
                                 id: tipsmsg.id,
