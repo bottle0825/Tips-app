@@ -22,5 +22,9 @@ router.post('/delete', function(req,res,next){
   var tips = new Tips(req,res,next);
   tips.delete()
 });
+router.post('/edit', function(req,res,next){
+  var tips = new Tips(req,res,next);
+  tips.edit()
+});
 
 module.exports = router;

@@ -21,14 +21,16 @@ Note.prototype.getMsg = function () {
         }
         var id = mySession[data.sessionId];
         db(con => {
-            var sql = 'select * from tip where note = \'' + data.id + '\';';
+            var sql = 'select * from tip where note = \'' + data.id + '\' order by createAt desc;';
             con.query(sql,(err, result) => {
                 if(err) throw err;
                 async.each(result,(tipsmsg,callback) => {
+                    var ddate = new Date(tipsmsg.createAt);
+                    time = ddate.getFullYear() + '/' + ddate.getMonth() + '/' + ddate.getDate();
                     var addNote = {
                         id: tipsmsg.id,
                         title: tipsmsg.title,
-                        date: tipsmsg.createAt,
+                        date: time,
                     }
                     reqData.data.push(addNote);
                     callback();
@@ -55,27 +57,22 @@ Note.prototype.getDetail = function () {
         }
         var id = mySession[data.sessionId];
         db(con => {
-            var sql = 'select * from tip where note = \'' + data.id + '\';';
+            var sql = 'select * from tip where id = \'' + data.id + '\';';
             con.query(sql,(err, result) => {
                 if(err) throw err;
-                async.each(result,(tipsmsg,callback) => {
-                    var addNote = {
-                        id: tipsmsg.id,
-                        title: tipsmsg.title,
-                        date: tipsmsg.createAt,
-                        img: tipsmsg.img,
-                        address: tipsmsg.address,
-                    }
-                    reqData.data.push(addNote);
-                    callback();
-                },(err) => {
-                    if(err){
-                      console.log('读取失败');
-                    }else{
-                      console.log('手账全部读取成功');
-                      this.res.send(reqData);
-                    }
-                });
+                var ddate = new Date(result[0].createAt);
+                var addNote = {
+                    id: result[0].id,
+                    title: result[0].title,
+                    content: result[0].content,
+                    date: ddate.getFullYear() + '.' + ddate.getMonth() + '.' + ddate.getDate(),
+                    time: ddate.getHours() + ':' + ddate.getMinutes(),
+                    img: result[0].img,
+                    address: result[0].address,
+                }
+                reqData.data = addNote;
+                console.log(reqData);
+                this.res.json(reqData)
             })
         },'Tips')
     })
@@ -87,6 +84,7 @@ Note.prototype.create = function () {
         // console.log(data)
         var id = mySession[data.sessionId];
         var date = Date.parse(new Date());
+        console.log(date);
         var name = this.req.file.path;
         var houzhui = this.req.file.originalname.split('.');
         houzhui = houzhui[houzhui.length - 1];
@@ -95,7 +93,7 @@ Note.prototype.create = function () {
         fs.rename(name, newPath, err => {
             console.log('文件名修改成功')
             db(con => {
-                var sql = 'insert into tip (title, note, img, address, createAt) values(\''+ data.title +'\', \''+ data.note +'\',\''+ newName +'\', \'' + data.address + '\', \'' + date + '\');'
+                var sql = 'insert into tip (title, note, img, content, address, createAt) values(\''+ data.title +'\', \''+ data.note +'\',\''+ newName +'\',\'' + data.content + '\', \'' + data.address + '\', \'' + date + '\');'
                 con.query(sql, (err, result) => {
                     if(err) console.log(err);
                     console.log('手账新建成功')
@@ -106,6 +104,33 @@ Note.prototype.create = function () {
         
     })
 }
+
+// Note.prototype.edit = function () {
+//     check(this.req, this.res, () => {
+//         let data = this.req.body;
+//         // console.log(data)
+//         var id = mySession[data.sessionId];
+//         var date = Date.parse(new Date());
+//         console.log(date);
+//         var name = this.req.file.path;
+//         var houzhui = this.req.file.originalname.split('.');
+//         houzhui = houzhui[houzhui.length - 1];
+//         newPath = name + '.' +  houzhui;
+//         newName = newPath.split('/');
+//         fs.rename(name, newPath, err => {
+//             console.log('文件名修改成功')
+//             db(con => {
+//                 var sql = 'insert into tip (title, note, img, address, createAt) values(\''+ data.title +'\', \''+ data.note +'\',\''+ newName +'\', \'' + data.address + '\', \'' + date + '\');'
+//                 con.query(sql, (err, result) => {
+//                     if(err) console.log(err);
+//                     console.log('手账新建成功')
+//                     this.res.json('success')
+//                 })
+//             },'Tips')
+//         });
+        
+//     })
+// }
 
 Note.prototype.delete = function () {
     let data = this.req.body;
