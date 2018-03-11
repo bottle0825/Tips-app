@@ -1,5 +1,6 @@
 const db = require('../db/basic')
 const request = require('request')
+const check = require('./common')
 require('../global')
 
 function User(req,res,next){
@@ -81,4 +82,51 @@ User.prototype.setWxCode = function () {
     })
 }
 
+User.prototype.following = function () {
+    check(this.req, this.res, () => {
+        let data = this.req.body;
+        // console.log(data)
+        var id = mySession[data.sessionId];
+        db(con => {
+            var sql = 'insert into following (user, other) values(\''+ id +'\', \''+ data.id +'\');'
+            con.query(sql, (err, result) => {
+                if(err) console.log(err);
+                console.log('插入关注成功')
+                sql = 'insert into follower (user, other) values(\''+ data.id +'\', \''+ id +'\');'
+                con.query(sql, (err, result) => {
+                    if(err) console.log(err);
+                    console.log('插入被关注成功')
+                    this.res.json({
+                        status: 1,
+                        msg: '关注成功'
+                    })
+                })
+            })
+        },'Tips')
+    })
+}
+
+User.prototype.unfollow = function () {
+    check(this.req, this.res, () => {
+        let data = this.req.body;
+        // console.log(data)
+        var id = mySession[data.sessionId];
+        db(con => {
+            var sql = 'delete from following where user=\'' + id + '\' and other=\'' + data.id + '\' ;'
+            con.query(sql, (err, result) => {
+                if(err) console.log(err);
+                console.log('删除关注成功')
+                sql = 'delete from following where user=\'' + data.id + '\' and other=\'' + id + '\' ;'
+                con.query(sql, (err, result) => {
+                    if(err) console.log(err);
+                    console.log('删除被关注成功')
+                    this.res.json({
+                        status: 1,
+                        msg: '取消关注成功'
+                    })
+                })
+            })
+        },'Tips')
+    })
+}
 module.exports = User;
