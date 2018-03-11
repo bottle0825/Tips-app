@@ -8,5 +8,14 @@ note:
     /note/delete
 tips:
     /tips/getDetail
-    /note/getMsg
-    /note/delete
+    /tips/getMsg
+    /tips/getDetail
+    /tips/delete
+basket:
+    /basket/getMsg
+    /basket/recover
+    /basket/delete
+said: 
+    /said/getMsg
+    /said/create
+    /said/delete

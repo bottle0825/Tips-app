@@ -1,7 +1,7 @@
 //用户表
 user:
     id
-    nickname
+    username
     head
     openid
     createAt
