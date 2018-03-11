@@ -1,6 +1,7 @@
 const db = require('../db/basic')
 const request = require('request')
 const check = require('./common')
+const async = require('async')
 require('../global')
 
 function User(req,res,next){
@@ -116,7 +117,7 @@ User.prototype.unfollow = function () {
             con.query(sql, (err, result) => {
                 if(err) console.log(err);
                 console.log('删除关注成功')
-                sql = 'delete from following where user=\'' + data.id + '\' and other=\'' + id + '\' ;'
+                sql = 'delete from follower where user=\'' + data.id + '\' and other=\'' + id + '\' ;'
                 con.query(sql, (err, result) => {
                     if(err) console.log(err);
                     console.log('删除被关注成功')
@@ -125,6 +126,112 @@ User.prototype.unfollow = function () {
                         msg: '取消关注成功'
                     })
                 })
+            })
+        },'Tips')
+    })
+}
+
+User.prototype.getFollowing = function () {
+    check(this.req, this.res, () => {
+        let data = this.req.body;
+        let reqData = {
+            status: 1,
+            msg: '查询成功',
+            data: []
+        }
+        var id = mySession[data.sessionId];
+        db(con => {
+            var sql = 'select other from following where user=\'' + id + '\' ;'
+            con.query(sql, (err, result) => {
+            if(err) console.log(err);
+            console.log(result)
+                if(result.length != 0){
+                    async.each(result,(following,callback) => {
+                        console.log('-----------+++++')
+                        console.log(following);
+                        sql = 'select * from user where id=\'' + following.other + '\';'
+                        con.query(sql, (err, result) => {
+                            if(err) console.log(err);
+                            console.log('-----------')
+                            console.log(result)
+                            console.log('查找关注信息成功')
+                            var addNote = {
+                                id: result[0].id,
+                                username: result[0].username,
+                                head: result[0].head,
+                            }
+                            reqData.data.push(addNote);
+                            callback();
+                        })
+                    },(err) => {
+                        if(err){
+                          console.log('读取失败');
+                        }else{
+                          console.log('关注全部读取成功');
+                          this.res.send(reqData);
+                        }
+                    });
+                } else {
+                    this.res.send({
+                        status: 0,
+                        msg: '你还没有关注用户～'
+                    });
+                }
+            })
+        },'Tips')
+    })
+}
+
+User.prototype.getFollower = function () {
+    check(this.req, this.res, () => {
+        let data = this.req.body;
+        let reqData = {
+            status: 1,
+            msg: '查询成功',
+            data: []
+        }
+        var id = mySession[data.sessionId];
+        db(con => {
+            var sql = 'select other from follower where user=\'' + id + '\' ;'
+            con.query(sql, (err, result) => {
+            if(err) console.log(err);
+                if(result.length != 0){
+                    async.each(result,(follower,callback) => {
+                        sql = 'select * from user where id=\'' + follower.other + '\';'
+                        con.query(sql, (err, result) => {
+                            if(err) console.log(err);
+                            console.log('查找关注信息成功');
+                            var newRes = result[0];
+                            sql = 'select id from following where other=\'' + newRes.id + '\';'
+                            con.query(sql, (err, result) => {
+                                var flag = false;
+                                if(result.length != 0){
+                                    flag = true;
+                                }
+                                var addNote = {
+                                    id: newRes.id,
+                                    username: newRes.username,
+                                    head: newRes.head,
+                                    follow: flag
+                                }
+                                reqData.data.push(addNote);
+                                callback();
+                            })
+                        })
+                    },(err) => {
+                        if(err){
+                          console.log('读取失败');
+                        }else{
+                          console.log('关注全部读取成功');
+                          this.res.send(reqData);
+                        }
+                    });
+                } else {
+                    this.res.send({
+                        status: 0,
+                        msg: '你还没有粉丝～'
+                    });
+                }
             })
         },'Tips')
     })

@@ -23,5 +23,13 @@ router.post('/unfollow', function(req,res,next){
   var user = new User(req,res,next);
   user.unfollow()
 });
+router.post('/getFollower', function(req,res,next){
+  var user = new User(req,res,next);
+  user.getFollower()
+});
+router.post('/getFollowing', function(req,res,next){
+  var user = new User(req,res,next);
+  user.getFollowing()
+});
 
 module.exports = router;
