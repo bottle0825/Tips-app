@@ -26,6 +26,7 @@ tip:
     id
     note
     title
+    content
     img
     address
     createAt
@@ -35,6 +36,7 @@ waste:
     oldId
     note
     title
+    content
     img
     address
     createAt
