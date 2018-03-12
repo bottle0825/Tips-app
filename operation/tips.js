@@ -31,6 +31,7 @@ Note.prototype.getMsg = function () {
                         id: tipsmsg.id,
                         title: tipsmsg.title,
                         date: time,
+                        img: tipsmsg.img
                     }
                     reqData.data.push(addNote);
                     callback();
@@ -89,7 +90,7 @@ Note.prototype.create = function () {
         var houzhui = this.req.file.originalname.split('.');
         houzhui = houzhui[houzhui.length - 1];
         newPath = name + '.' +  houzhui;
-        newName = newPath.split('/');
+        newName = newPath.split('/')[1];
         fs.rename(name, newPath, err => {
             console.log('文件名修改成功')
             db(con => {

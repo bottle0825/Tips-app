@@ -126,7 +126,7 @@ Said.prototype.create = function () {
         var houzhui = this.req.file.originalname.split('.');
         houzhui = houzhui[houzhui.length - 1];
         newPath = name + '.' +  houzhui;
-        newName = newPath.split('/');
+        newName = newPath.split('/')[1];
         fs.rename(name, newPath, err => {
             console.log('文件名修改成功')
             db(con => {

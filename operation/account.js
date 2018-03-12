@@ -57,7 +57,7 @@ Account.prototype.getDayMsg = function () {
                             money: (accountmsg.money/100),
                         }
                         reqData.data.list.push(newdaylist)
-                        if(accountmsg.in_out == 0){
+                        if(accountmsg.in_out == 1){
                             reqData.data.dayIn += (accountmsg.money/100);
                         } else {
                             reqData.data.dayOut += (accountmsg.money/100);
