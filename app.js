@@ -12,6 +12,7 @@ var tips = require('./routes/tips');
 var basket = require('./routes/basket');
 var said = require('./routes/said');
 var account = require('./routes/account');
+var word = require('./routes/word');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use('/tips', tips);
 app.use('/basket', basket);
 app.use('/said', said);
 app.use('/account', account);
+app.use('/word', word);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
